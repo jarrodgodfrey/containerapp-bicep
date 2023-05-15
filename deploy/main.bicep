@@ -3,6 +3,7 @@ param appName string = uniqueString(resourceGroup().id)
 param logAnalyticsWorkspaceName string = 'law${appName}'
 param keyVaultName string = 'kv${appName}'
 param lastDeployed string = utcNow('d')
+//this is used as a conditional when deploying the container app
 param isContainerImagePresent bool
 
 //container registry
@@ -19,7 +20,6 @@ var containerAppEnvVariables = [
     value: 'Development'
   }
 ]
-
 
 var tags = {
   ApplicationName: 'EpicApp'
@@ -44,8 +44,6 @@ resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' = {
     ]
   }
 }
-
-
 //module invocations:
 
 module logAnalytics 'logAnalytics.bicep' = {
